@@ -1,6 +1,7 @@
 package com.example.payproof.service;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 @Service
+@Slf4j
 public class LoginOtpService {
 
     private static final String EMAIL_KEY = "loginOtp.email";
@@ -137,6 +139,7 @@ public class LoginOtpService {
                     html
             );
         } catch (IOException | RestClientException | IllegalStateException exception) {
+            log.error("Could not send verification email via Resend.", exception);
             throw new ResponseStatusException(
                     HttpStatus.SERVICE_UNAVAILABLE,
                     "Could not send a verification email. Please try again later.",
